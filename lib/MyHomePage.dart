@@ -1,3 +1,4 @@
+import 'package:bibliogame/class/games.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:bibliogame/function/load-games.dart';
@@ -12,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 
 //splashscreen de 3 secondes avec le logo et un CircularProgressIndicator qui renvoie sur la page d'acceuil
 class SplashScreenState extends State<MyHomePage> {
+  List<Games> _games = [];
   @override
   void initState() {
     super.initState();
@@ -19,7 +21,12 @@ class SplashScreenState extends State<MyHomePage> {
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const Acceuil())));
-    listGames([], 1);
+    chargement();
+  }
+
+  void chargement() async {
+    _games = await listGames(_games, 1);
+    setState(() {});
   }
 
   @override
