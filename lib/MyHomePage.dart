@@ -13,20 +13,13 @@ class MyHomePage extends StatefulWidget {
 
 //splashscreen de 3 secondes avec le logo et un CircularProgressIndicator qui renvoie sur la page d'acceuil
 class SplashScreenState extends State<MyHomePage> {
-  List<Games> _games = [];
   @override
   void initState() {
     super.initState();
     Timer(
         const Duration(seconds: 5),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Acceuil(games: _games))));
-    chargement();
-  }
-
-  void chargement() async {
-    _games = await listGames(_games, 1);
-    setState(() {});
+            context, MaterialPageRoute(builder: (context) => Acceuil())));
   }
 
   @override
@@ -54,13 +47,29 @@ class SplashScreenState extends State<MyHomePage> {
   }
 }
 
+class Acceuil extends StatefulWidget {
+  @override
+  _Acceuil createState() => _Acceuil();
+}
+
 //page d'acceuil avec un menu de navigation et deux boutons qui renvoit soit sur la page statistique ou personnalisé
-class Acceuil extends StatelessWidget {
-  final List<Games> games;
-  const Acceuil({Key? key, required this.games}) : super(key: key);
+class _Acceuil extends State<Acceuil> {
+  List<Games> _games = [];
+  int _page=1;
+  bool init=false;
+
+  void chargement() async {
+    _games=[];
+    _games = await listGames(_games, _page);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    if(init==false){
+      chargement();
+      init=true;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('BiblioGames'),
@@ -104,7 +113,7 @@ class Acceuil extends StatelessWidget {
             crossAxisSpacing: 8.0, // spacing between columns
           ),
           padding: EdgeInsets.all(8.0), // padding around the grid
-          itemCount: games.length, // total number of items
+          itemCount: _games.length, // total number of items
           itemBuilder: (context, index) {
             return Container(
               child: Center(
@@ -122,18 +131,18 @@ class Acceuil extends StatelessWidget {
                           topRight: Radius.circular(15.0),
                         ),
                         child: Image.network(
-                          games[index].getImg(), // Replace with your image URL
+                          _games[index].getImg(), // Replace with your image URL
                           width: double.infinity,
-                          height: 150,
+                          height: 125,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      const Padding(padding: EdgeInsets.all(5)),
-                      Column(children: [
+                      const Padding(padding: EdgeInsets.all(10)),
+                      Column(mainAxisAlignment:MainAxisAlignment.center,children: [
                         Text(
-                          games[index].getNom(),
+                          _games[index].getNom(),
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -144,6 +153,33 @@ class Acceuil extends StatelessWidget {
               ),
             );
           },
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  if(_page>0){
+                    _page--;
+                    chargement();
+                  }
+                },
+              ),
+              Text('Page $_page'),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  if(_page<500){
+                  _page++;
+                  chargement();
+                  }
+                },
+              ),
+            ],
+          ),
         )
     );
   }
