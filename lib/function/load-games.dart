@@ -23,7 +23,11 @@ Future<List<Games>> listGames(List<Games> games, int page) async {
     if (responseBody.containsKey('results')) {
       List<dynamic> gamesList = responseBody['results'];
       // Faites quelque chose avec la liste des jeux...
-      print(gamesList[0]);
+      print(gamesList[0]["metacritic"]);
+      for (int i = 0; i < gamesList.length; i++) {
+        Games mess = Games(gamesList[i]["name"], gamesList[i]["metacritic"]);
+        games.add(mess);
+      }
       print("Chargement terminé !");
     } else {
       print(
@@ -33,6 +37,5 @@ Future<List<Games>> listGames(List<Games> games, int page) async {
     // Récupérer l'erreur de chargement et l'afficher
     print("Error: ${response.statusCode} - ${response.reasonPhrase}");
   }
-
-  return [];
+  return games;
 }
