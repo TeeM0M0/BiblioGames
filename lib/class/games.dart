@@ -1,14 +1,19 @@
 class Games {
+  int _id;
   String _nom;
-  int _metacritic;
+  String _img;
 
-  Games(this._nom, this._metacritic);
+  Games(this._id,this._nom, this._img);
+
+  int getId() {
+    return this._id;
+  }
 
   String getNom() {
     return this._nom;
   }
 
-  int getMetacritic() {
-    return this._metacritic;
+  String getImg() {
+    return this._img;
   }
 }

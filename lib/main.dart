@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Accueil'),
       routes: <String, WidgetBuilder>{
-        '/acceuil': (BuildContext context) => const Acceuil(),
+        '/acceuil': (BuildContext context) => const Acceuil(games: [],),
       },
     );
   }

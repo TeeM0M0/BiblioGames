@@ -22,10 +22,8 @@ Future<List<Games>> listGames(List<Games> games, int page) async {
     Map<String, dynamic> responseBody = jsonDecode(response.body);
     if (responseBody.containsKey('results')) {
       List<dynamic> gamesList = responseBody['results'];
-      // Faites quelque chose avec la liste des jeux...
-      print(gamesList[0]["metacritic"]);
       for (int i = 0; i < gamesList.length; i++) {
-        Games mess = Games(gamesList[i]["name"], gamesList[i]["metacritic"]);
+        Games mess = Games(gamesList[i]["id"],gamesList[i]["name"], gamesList[i]["background_image"]);
         games.add(mess);
       }
       print("Chargement terminé !");
