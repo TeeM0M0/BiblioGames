@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bibliogame/MyHomePage.dart';
 import 'package:flutter/services.dart';
+import 'gameInfo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BeerMaker',
+      title: 'BiblioGames',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Accueil'),
       routes: <String, WidgetBuilder>{
-        '/acceuil': (BuildContext context) =>  Acceuil(),
+        '/acceuil': (BuildContext context) => Acceuil(),
+        '/gameInfo': (BuildContext context) => GameInfo(),
       },
     );
   }
