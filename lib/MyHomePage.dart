@@ -2,6 +2,7 @@ import 'package:bibliogame/class/games.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:bibliogame/function/load-games.dart';
+import 'package:bibliogame/widget/navbar.dart';
 
 //permet la création du splashscreen au lancement de l'application
 class MyHomePage extends StatefulWidget {
@@ -25,20 +26,19 @@ class SplashScreenState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color:const Color.fromRGBO(194, 195, 197, 5) ,
       child: Stack(
         children: [
           Center(
             child: Padding(
               padding: EdgeInsets.only(bottom: 200),
-              child: const Text("bibioGames"),
+              child: const Text("bibioGames",style: TextStyle(fontFamily: 'Retro',color: Colors.black,decoration: TextDecoration.none),),
             ),
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 350.0),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
+              padding: EdgeInsets.only(top: 10.0),
+              child: Image.asset('Assets/loading.gif')
             ),
           ),
         ],
@@ -71,40 +71,8 @@ class _Acceuil extends State<Acceuil> {
       init=true;
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BiblioGames'),
-        backgroundColor: const Color.fromRGBO(194, 195, 197, 5),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const Center(
-              child: DrawerHeader(
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.grey),
-                ),
-              ),
-            ),
-            Center(
-              child: ListTile(
-                title: const Text(
-                  'Mes bibliothèques',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey),
-                ),
-                onTap: () {
-                  null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      appBar: Navbar.appBar(context),
+      drawer:Navbar.drawer(),
       body:
         GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -116,45 +84,50 @@ class _Acceuil extends State<Acceuil> {
           itemCount: _games.length, // total number of items
           itemBuilder: (context, index) {
             return Container(
-              child: Center(
-                child: Card(
-                  elevation: 4, // Change the elevation as needed
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+              child: InkWell(onTap: () {
+                Navigator.pushNamed(context, '/gameInfo');
+              },
+                  child:Center(
+                      child: Card(
+                        elevation: 4, // Change the elevation as needed
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Column(
+                          children: [
+                            // Image at the top
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15.0),
+                                topRight: Radius.circular(15.0),
+                              ),
+                              child: Image.network(
+                                _games[index].getImg(), // Replace with your image URL
+                                width: double.infinity,
+                                height: 125,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.all(10)),
+                            Column(mainAxisAlignment:MainAxisAlignment.center,children: [
+                              Text(
+                                _games[index].getNom(),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],)
+                          ],
+                        ),
+                      )
                   ),
-                  child: Column(
-                    children: [
-                      // Image at the top
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0),
-                        ),
-                        child: Image.network(
-                          _games[index].getImg(), // Replace with your image URL
-                          width: double.infinity,
-                          height: 125,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const Padding(padding: EdgeInsets.all(10)),
-                      Column(mainAxisAlignment:MainAxisAlignment.center,children: [
-                        Text(
-                          _games[index].getNom(),
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],)
-                    ],
-                  ),
-                )
               ),
             );
           },
         ),
         bottomNavigationBar: BottomAppBar(
+          color: const Color.fromRGBO(194, 195, 197, 5),
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,7 +141,7 @@ class _Acceuil extends State<Acceuil> {
                   }
                 },
               ),
-              Text('Page $_page'),
+              Text('Page $_page',style: TextStyle(fontFamily: 'Retro',fontSize: 15)),
               IconButton(
                 icon: Icon(Icons.arrow_forward),
                 onPressed: () {

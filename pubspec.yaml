@@ -58,6 +58,12 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - Assets/
+  fonts:
+    - family: Retro
+      fonts:
+        - asset: Assets/Retro Gaming.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

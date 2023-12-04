@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bibliogame/MyHomePage.dart';
+import 'package:bibliogame/gameInfo.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Accueil'),
       routes: <String, WidgetBuilder>{
         '/acceuil': (BuildContext context) =>  Acceuil(),
+        '/gameInfo': (BuildContext context) =>  GameInfo(),
       },
     );
   }
