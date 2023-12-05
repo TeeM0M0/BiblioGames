@@ -1,8 +1,8 @@
-import 'package:bibliogame/class/games.dart';
+import 'package:bibliogame/class/gameInfo.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<List<Games>> gameInfo(List<Games> games, int id) async {
+Future<List<GameInfoClass>> gameInfo(List<GameInfoClass> games, int id) async {
   String Url =
       'http://api.rawg.io/api/games/$id?key=6191fd434aa74de5a0f31356b70b824a';
 
@@ -17,17 +17,16 @@ Future<List<Games>> gameInfo(List<Games> games, int id) async {
 
   if (response.statusCode == 200) {
     Map<String, dynamic> responseBody = jsonDecode(response.body);
-    if (responseBody.containsKey('results')) {
-      List<dynamic> gamesList = responseBody['results'];
-      for (int i = 0; i < gamesList.length; i++) {
-        Games mess = Games(gamesList[i]["id"],gamesList[i]["name"], gamesList[i]["background_image"]);
-        games.add(mess);
-      }
-      print("Chargement terminé !");
-    } else {
-      print(
-          "La structure de la réponse JSON ne correspond pas à ce qui était prévu.");
-    }
+    GameInfoClass game = GameInfoClass(
+        responseBody["name"],
+        responseBody["background_image"],
+        responseBody["genres"],
+        responseBody["developers"],
+        responseBody["description"],
+        responseBody["metacritic"],
+        responseBody["parent_platforms"],
+        responseBody["released"]);
+    games.add(game);
   } else {
     // Récupérer l'erreur de chargement et l'afficher
     print("Error: ${response.statusCode} - ${response.reasonPhrase}");

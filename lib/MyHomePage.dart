@@ -26,20 +26,25 @@ class SplashScreenState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:const Color.fromRGBO(194, 195, 197, 5) ,
+      color: const Color.fromRGBO(194, 195, 197, 5),
       child: Stack(
         children: [
           Center(
             child: Padding(
               padding: EdgeInsets.only(bottom: 200),
-              child: const Text("bibioGames",style: TextStyle(fontFamily: 'Retro',color: Colors.black,decoration: TextDecoration.none),),
+              child: const Text(
+                "bibioGames",
+                style: TextStyle(
+                    fontFamily: 'Retro',
+                    color: Colors.black,
+                    decoration: TextDecoration.none),
+              ),
             ),
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Image.asset('Assets/loading.gif')
-            ),
+                padding: EdgeInsets.only(top: 10.0),
+                child: Image.asset('Assets/loading.gif')),
           ),
         ],
       ),
@@ -55,26 +60,25 @@ class Acceuil extends StatefulWidget {
 //page d'acceuil avec un menu de navigation et deux boutons qui renvoit soit sur la page statistique ou personnalisé
 class _Acceuil extends State<Acceuil> {
   List<Games> _games = [];
-  int _page=1;
-  bool init=false;
+  int _page = 1;
+  bool init = false;
 
   void chargement() async {
-    _games=[];
+    _games = [];
     _games = await listGames(_games, _page);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    if(init==false){
+    if (init == false) {
       chargement();
-      init=true;
+      init = true;
     }
     return Scaffold(
-      appBar: Navbar.appBar(context),
-      drawer:Navbar.drawer(),
-      body:
-        GridView.builder(
+        appBar: Navbar.appBar(context),
+        drawer: Navbar.drawer(),
+        body: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // number of items in each row
             mainAxisSpacing: 8.0, // spacing between rows
@@ -84,44 +88,48 @@ class _Acceuil extends State<Acceuil> {
           itemCount: _games.length, // total number of items
           itemBuilder: (context, index) {
             return Container(
-              child: InkWell(onTap: () {
-                Navigator.pushNamed(context, '/gameInfo');
-              },
-                  child:Center(
-                      child: Card(
-                        elevation: 4, // Change the elevation as needed
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Column(
-                          children: [
-                            // Image at the top
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15.0),
-                                topRight: Radius.circular(15.0),
-                              ),
-                              child: Image.network(
-                                _games[index].getImg(), // Replace with your image URL
-                                width: double.infinity,
-                                height: 125,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const Padding(padding: EdgeInsets.all(10)),
-                            Column(mainAxisAlignment:MainAxisAlignment.center,children: [
-                              Text(
-                                _games[index].getNom(),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],)
-                          ],
-                        ),
-                      )
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/gameInfo',
+                      arguments: _games[index].getId());
+                },
+                child: Center(
+                    child: Card(
+                  elevation: 4, // Change the elevation as needed
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
+                  child: Column(
+                    children: [
+                      // Image at the top
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        child: Image.network(
+                          _games[index].getImg(), // Replace with your image URL
+                          width: double.infinity,
+                          height: 125,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.all(10)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _games[index].getNom(),
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )),
               ),
             );
           },
@@ -135,25 +143,25 @@ class _Acceuil extends State<Acceuil> {
               IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  if(_page>0){
+                  if (_page > 0) {
                     _page--;
                     chargement();
                   }
                 },
               ),
-              Text('Page $_page',style: TextStyle(fontFamily: 'Retro',fontSize: 15)),
+              Text('Page $_page',
+                  style: TextStyle(fontFamily: 'Retro', fontSize: 15)),
               IconButton(
                 icon: Icon(Icons.arrow_forward),
                 onPressed: () {
-                  if(_page<500){
-                  _page++;
-                  chargement();
+                  if (_page < 500) {
+                    _page++;
+                    chargement();
                   }
                 },
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }
