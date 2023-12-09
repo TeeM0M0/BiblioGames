@@ -1,5 +1,3 @@
-import 'package:bibliogame/class/serialisation/bibliotheques.dart';
-import 'package:bibliogame/class/serialisation/jeu.dart';
 import 'package:bibliogame/function/load-gameInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:bibliogame/widget/navbar.dart';

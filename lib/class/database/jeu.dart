@@ -1,9 +1,9 @@
 class Jeu {
   int _id;
   String _nom;
-  int _collectionId;
+  int _idJeuAPI;
 
-  Jeu(this._id, this._nom, this._collectionId);
+  Jeu(this._id, this._nom,this._idJeuAPI);
 
   int getId() {
     return this._id;
@@ -13,7 +13,4 @@ class Jeu {
     return this._nom;
   }
 
-  int getIdCollection() {
-    return this._collectionId;
-  }
 }

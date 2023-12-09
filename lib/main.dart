@@ -1,10 +1,13 @@
+import 'package:bibliogame/class/database/db.dart';
 import 'package:flutter/material.dart';
 import 'package:bibliogame/MyHomePage.dart';
 import 'package:bibliogame/gameInfo.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.initDatabase();
+  DatabaseHelper.printTablesContents();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(MyApp()));
 }

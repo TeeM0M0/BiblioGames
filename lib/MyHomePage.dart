@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:bibliogame/function/load-games.dart';
 import 'package:bibliogame/widget/navbar.dart';
 
+
 //permet la création du splashscreen au lancement de l'application
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -64,6 +65,7 @@ class _Acceuil extends State<Acceuil> {
   bool init = false;
 
   void chargement() async {
+
     _games = [];
     _games = await listGames(_games, _page);
     setState(() {});
