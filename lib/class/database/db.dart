@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'bibliotheques.dart';
-import 'etagere.dart';
 import 'jeu.dart';
 
 class DatabaseHelper {
@@ -55,39 +53,24 @@ class DatabaseHelper {
 
   static Future<void> newBiblioAndAddJeu(String nomBibliotheque, String nomJeu, int idAPIJeu, String urlIMG) async {
     final db = await initDatabase();
-
-    // Créer une nouvelle bibliothèque
     int idBibliotheque = await db.insert('bibliotheques', {'nom': nomBibliotheque});
-
-    // Insérer un nouveau jeu
     int idJeu = await db.insert('jeux', {'nom': nomJeu, 'idJeuAPI': idAPIJeu, 'urlIMG' : urlIMG});
-
-    // Associer le jeu à la bibliothèque
     await db.insert('bibliotheque_jeu', {'idBibliotheque': idBibliotheque, 'idJeu': idJeu});
-
     print('La bibliothèque "$nomBibliotheque" a été créée, et le jeu "$nomJeu" a été ajouté à cette bibliothèque.');
   }
 
   static Future<void> addJeuBiblio(String nomBibliotheque, String nomJeu, int idAPIJeu, String urlIMG) async {
     final db = await initDatabase();
-
-    // Récupérer l'ID de la bibliothèque en fonction du nom
     List<Map<String, dynamic>> biblioResult = await db.query(
       'bibliotheques',
       columns: ['id'],
       where: 'nom = ?',
       whereArgs: [nomBibliotheque],
     );
-
     if (biblioResult.isNotEmpty) {
       int idBibliotheque = biblioResult.first['id'];
-
-      // Insérer un nouveau jeu
       int idJeu = await db.insert('jeux', {'nom': nomJeu, 'idJeuAPI': idAPIJeu, 'urlIMG': urlIMG});
-
-      // Associer le jeu à la bibliothèque
       await db.insert('bibliotheque_jeu', {'idBibliotheque': idBibliotheque, 'idJeu': idJeu});
-
       print('Le jeu "$nomJeu" a été ajouté à la bibliothèque "$nomBibliotheque".');
     } else {
       print('La bibliothèque "$nomBibliotheque" n\'existe pas.');
@@ -96,36 +79,27 @@ class DatabaseHelper {
 
   static Future<void> dellJeuBiblio(String nomBibliotheque, String nomJeu) async {
     final db = await initDatabase();
-
-    // Récupérer l'ID de la bibliothèque en fonction du nom
     List<Map<String, dynamic>> biblioResult = await db.query(
       'bibliotheques',
       columns: ['id'],
       where: 'nom = ?',
       whereArgs: [nomBibliotheque],
     );
-
     if (biblioResult.isNotEmpty) {
       int idBibliotheque = biblioResult.first['id'];
-
-      // Récupérer l'ID du jeu en fonction du nom
       List<Map<String, dynamic>> jeuResult = await db.query(
         'jeux',
         columns: ['id'],
         where: 'nom = ?',
         whereArgs: [nomJeu],
       );
-
       if (jeuResult.isNotEmpty) {
         int idJeu = jeuResult.first['id'];
-
-        // Supprimer l'association du jeu avec la bibliothèque
         await db.delete(
           'bibliotheque_jeu',
           where: 'idBibliotheque = ? AND idJeu = ?',
           whereArgs: [idBibliotheque, idJeu],
         );
-
         print('Le jeu "$nomJeu" a été supprimé de la bibliothèque "$nomBibliotheque".');
       } else {
         print('Le jeu "$nomJeu" n\'existe pas.');
@@ -139,19 +113,15 @@ class DatabaseHelper {
 
   static Future<List<Jeu>> getJeuxBiblio(String nomBibliotheque) async {
     final db = await initDatabase();
-
     final List<Map<String, dynamic>> biblioResult = await db.query('bibliotheques',
         where: 'nom = ?',
         whereArgs: [nomBibliotheque],
         limit: 1);
-
     if (biblioResult.isEmpty) {
       // La bibliothèque n'a pas été trouvée, vous pouvez gérer cela en conséquence
       return [];
     }
-
     int idBibliotheque = biblioResult[0]['id'];
-
     final List<Map<String, dynamic>> result = await db.rawQuery('''
     SELECT *
     FROM jeux
@@ -161,31 +131,23 @@ class DatabaseHelper {
       WHERE idBibliotheque = ?
     )
   ''', [idBibliotheque]);
-
-    // Créer une liste de jeux
     List<Jeu> jeux = [];
     for (var jeu in result) {
       jeux.add(Jeu(jeu['id'], jeu['nom'], jeu['idJeuAPI'], jeu["urlIMG"]));
     }
-
     return jeux;
   }
 
 
   static Future<List<String>> getBiblioNames() async {
     final db = await initDatabase();
-
-    // Requête SQL pour récupérer tous les noms des bibliothèques
     final List<Map<String, dynamic>> result = await db.rawQuery(
         '''
         SELECT nom
         FROM bibliotheques
         '''
       );
-
-    // Extraire les noms de la liste de résultats et les convertir en List<String>
     List<String> bibliothequeNames = result.map<String>((map) => map['nom'] as String).toList();
-
     return bibliothequeNames;
   }
 
@@ -241,17 +203,13 @@ class DatabaseHelper {
 
   static void printTablesContents() async {
     final db = await DatabaseHelper.database;
-
     if (db == null) {
       print("Erreur lors de l'ouverture de la base de données.");
       return;
     }
-
     final tableNames = ["bibliotheques","jeux", "bibliotheque_jeu"];
-
     for (final tableName in tableNames) {
       final List<Map<String, dynamic>> results = await db.query(tableName);
-
       print("Contenu de la table $tableName:");
       for (final row in results) {
         print(row);

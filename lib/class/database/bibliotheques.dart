@@ -14,16 +14,4 @@ class Bibliotheque {
     return this.nom;
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'nom': nom,
-    };
-  }
-
-  @override
-  String toString() {
-    return 'Bibliotheque{id: $id, nom: $nom}';
-  }
-
 }
