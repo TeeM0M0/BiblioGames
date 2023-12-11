@@ -18,7 +18,7 @@ class Navbar {
     );
   }
 
-  static Widget drawer() {
+  static Widget drawer(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -28,10 +28,23 @@ class Navbar {
               child: Text(
                 'Menu',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.grey),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Colors.grey,
+                ),
               ),
+            ),
+          ),
+          Center(
+            child: ListTile(
+              title: const Text(
+                'Accueil',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/accueil');
+              },
             ),
           ),
           Center(
@@ -42,7 +55,7 @@ class Navbar {
                 style: TextStyle(color: Colors.grey),
               ),
               onTap: () {
-                // Action à effectuer lors du clic sur l'élément du tiroir
+                Navigator.pushNamed(context, '/MesBibliotheques');
               },
             ),
           ),
@@ -50,5 +63,6 @@ class Navbar {
       ),
     );
   }
+
 
 }

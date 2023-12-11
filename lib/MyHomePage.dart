@@ -65,7 +65,6 @@ class _Acceuil extends State<Acceuil> {
   bool init = false;
 
   void chargement() async {
-
     _games = [];
     _games = await listGames(_games, _page);
     setState(() {});
@@ -79,7 +78,7 @@ class _Acceuil extends State<Acceuil> {
     }
     return Scaffold(
         appBar: Navbar.appBar(context),
-        drawer: Navbar.drawer(),
+        drawer: Navbar.drawer(context),
         body: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // number of items in each row
@@ -97,6 +96,7 @@ class _Acceuil extends State<Acceuil> {
                 },
                 child: Center(
                     child: Card(
+                      color: const Color.fromRGBO(194, 195, 197, 5),
                   elevation: 4, // Change the elevation as needed
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -123,7 +123,7 @@ class _Acceuil extends State<Acceuil> {
                           Text(
                             _games[index].getNom(),
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

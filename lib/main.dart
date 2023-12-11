@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bibliogame/MyHomePage.dart';
 import 'package:bibliogame/gameInfo.dart';
 import 'package:flutter/services.dart';
+import 'MesBibliotheques.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +31,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Accueil'),
       routes: <String, WidgetBuilder>{
-        '/acceuil': (BuildContext context) =>  Acceuil(),
+        '/accueil': (BuildContext context) =>  Acceuil(),
         '/gameInfo': (BuildContext context) =>  GameInfo(),
+        '/MesBibliotheques': (BuildContext context) =>  MesBibliotheques(),
       },
     );
   }
