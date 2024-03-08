@@ -1,48 +1,45 @@
 # BiblioGames
 
 BiblioGames est une application codée en Flutter dans le cadre de mes études en BTS SIO option SLAM.
-Cette application permet d'avoir sa collection de jeux sauvegarder dans son tèlephone, avec la possibilitè de créer des bibliothèques de jeux
-et de voir les informations des jeux.
+Cette application permet d'avoir sa collection de jeux sauvegardés dans son téléphone, avec la possibilité de créer des bibliothèques de jeux et de voir les informations des jeux.
 
-Cette application est le prèquel d'un plus gros projet personnel.
+Cette application est le préquel d'un plus gros projet personnel.
 
 ## Fonctionnement
 
-L'application démarre sur un splash Screen de 3 s, on est ensuite redirigé sur la page d'accueil sur laquelle se trouvent les diffèrentts jeux et boutons pour accéder 
-aux informations des jeux. Et un menu déroulant  qui amène soit à la page d'accueil ou sur la page des bibliothèques.
+L'application démarre sur un splash Screen de 3 s, on est ensuite redirigé sur la page d'accueil sur laquelle se trouvent les différents jeux et boutons pour accéder aux informations des jeux. 
+Et un menu déroulant  qui amène soit à la page d'accueil ou sur la page des bibliothèques.
 
 ![partie1](partie1.png)
 
 ### Page gameInfo :
 
-Sur la page gameInfo, vous avez accès à certaine information du jeu avec une image de celui-ci. Il y a aussi la possibilitè d'ajouter le jeu 
-à une bibliothèque grâce au bouton en bas a droite de la page.
+Sur la page gameInfo, vous avez accès à certaines informations du jeu avec une image de celui-ci. Il y a aussi la possibilité d'ajouter le jeu à une bibliothèque grâce au bouton en bas à droite de la page.
 
 ![stat](info.png)
 
 ### Page MesBibliothèques :
 
-Sur la page MesBibliothèques l'utilisateur à accès à toutes ces bibliothèques et au jeux qu'il à ajouter. Il est possible de supprimer un jeu d'une 
-bibliothèque et toute les données des bibliothèques sont stocké en local.
+Sur la page MesBibliothèques l'utilisateur a accès à toutes ces bibliothèques et aux jeux qu'il a ajoutés. Il est possible de supprimer un jeu d'une bibliothèque et toutes les données des bibliothèques sont stockées en local.
 
 ![perso](biblio.png)
 
 ## Les fichiers
 
-### Dice.dart 
+### games.dart 
 
-Dice est une classe abstraite qui sert de "modèle" pour créer des dés de nombre de faces différant comme avec les classes fille dice6, dice10... 
-Elle possède 2 attributs privés _nbface qui sert à savoir le nombre de faces du dé et _resultatface qui est une variable qui sauvegarde le résultat du dé après chaque lancer.
+Games est une classe qui sert à récupérer les données de base des jeux après l'appel de l'API pour afficher la page d'accueil.
+Elle possède 3 attributs privés _id , _nom et _img.
 
-### Dice6/10/20/100/X.dart 
+### gameInfo.dart 
 
-Dice6/10/20/100/X sont des classes fille de Dice elles permettent la création de dé à 6/10/20/100/X faces (X étant un nombre choisi par l'utilisateur)
+Games est une classe qui sert à récupérer les données plus précises d'un jeu après l'appel de l'API
+Elle possède 8 attributs privés  _nom , _img , _description, _realease, _metacreitic , _platforme , _dev, _dev, _genre.
 
-### Dicepool.dart
+### bibliothèque/collection/dbetagere/jeu.dart 
 
-Dicepool est une classe abstraite qui sert de "modèle" pour créer des pools de dé différant comme avec les classes fille dice6pool, dice10pool...
-Elle possède 2 attributs privés _pool qui est une List où sont stockés les dés et _résultat une List où sont stockés les résultats de chaque dé.
+Ces classes sont les classes qui permettent la sauvegarde des bibliothèques de manière locale à l'aide de SQLite
 
-### Dice6/10/20/100/Xpool.dart 
+### load-gameinfo/load-games.dart 
 
-Dice6/10/20/100/Xpool sont des classes fille de Dicepool elles permettent la création d'un pool de  dé à 6/10/20/100/X faces uniquement. (X étant un nombre choisi par l'utilisateur)
+Ce sont les fichiers qui contiennent les fonctions qui réalisent les appels d'API
